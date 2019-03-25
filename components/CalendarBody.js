@@ -14,22 +14,12 @@ class CalendarBody extends Component {
   }
 
   formSubmit() {
-    // const {getQuote} = this.props.actions;
-    // return getQuote().then(res => {
-    //   if (res === 'Data Exist') {
-    //     alert('Sorry! Your bank details already exist. Kindly contact us at safedrvgdiscount@axa.com.my if you wish to change your bank details.'); // eslint-disable-line
-    //   } else if (res === 'Branch Missing') {
-    //     alert('Branch code is not found!'); // eslint-disable-line
-    //   } else {
-    //     if (res) { // eslint-disable-line
-    //       Router.push('/bank-info');
-    //     } else {
-    //       alert('No Data Found!'); // eslint-disable-line
-    //     }
-    //   }
-    // }).catch(err => {
-    //   console.log(err);
-    // });
+    const {saveBook} = this.props.actions;
+    return saveBook().then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   render() {
@@ -42,7 +32,7 @@ class CalendarBody extends Component {
 }
 
 // Uncomment this section if to be use in the future
-CalendarForm.propTypes = {
+CalendarBody.propTypes = {
   actions: PropTypes.object.isRequired
 };
 

@@ -6,9 +6,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import reactStrapForm from '../utils/reactStrapComp';
 import validation from '../utils/validation';
-import {setIdType} from '../actions/FormActions';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
+import Normalize from '../utils/normalize';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -16,14 +16,8 @@ const localizer = BigCalendar.momentLocalizer(moment);
 
 let CalendarForm = props => {
   const {
-    handleSubmit,
-    change
+    handleSubmit
   } = props;
-
-  const setIdType = (a, b) => {
-    props.actions.setIdType(b);
-    change('nricPass', '');
-  };
 
   const fields = [
     <Field
@@ -34,7 +28,6 @@ let CalendarForm = props => {
       component={reactStrapForm.renderSelectField}
       options={[{name: 'Single Room', value: 'single'}, {name: 'Double Room', value: 'double'}]}
       className="form-control"
-      onChange={(a, b) => setIdType(a, b)}
     />,
     <Field
       key="sfl-1"
@@ -71,16 +64,18 @@ let CalendarForm = props => {
       type="text"
       title="price"
       validate={validation.required}
+      normalize={Normalize.noOnly}
     />,
     <Field
       key="sfl-4"
       name="availability"
       label="Availability"
-      placeholder="availability"
+      placeholder="Availability"
       component={reactStrapForm.renderField}
       type="text"
       title="availability"
       validate={validation.required}
+      normalize={Normalize.noOnly}
     />,
     <Button key="sfl-6" className="button-submit" type="submit">
       <span>Submit</span>
@@ -150,7 +145,7 @@ CalendarForm.propTypes = {
   initialValues: PropTypes.object,
   actions: PropTypes.object,
   change: PropTypes.func,
-  idType: PropTypes.string
+  roomType: PropTypes.string
 };
 
 CalendarForm = reduxForm({
@@ -160,18 +155,18 @@ CalendarForm = reduxForm({
 })(CalendarForm);
 
 function mapStateToProps(state) {
-  const {idType} = state.details;
+  const {roomType} = state.details;
   return {
-    idType: state.details.idType,
+    roomType: state.details.roomType,
     initialValues: {
-      idType
+      roomType
     }
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({setIdType}, dispatch)
+    actions: bindActionCreators({}, dispatch)
   };
 }
 

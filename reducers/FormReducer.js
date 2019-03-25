@@ -6,10 +6,9 @@ export default function formReducer(state = FormInitialState, action = inputChan
   switch (action.type) {
   case types.SET_BOOKING: {
     const data = action.payload;
+    console.log(data);
     return {
-      ...state,
-      nric: data.nricPass,
-      vehno: data.vehNo
+      ...state
     };
   }
 
