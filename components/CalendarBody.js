@@ -17,6 +17,7 @@ class CalendarBody extends Component {
     const {saveBook} = this.props.actions;
     return saveBook().then(res => {
       console.log(res);
+      alert('Booking Save');// eslint-disable-line
     }).catch(err => {
       console.log(err);
     });
