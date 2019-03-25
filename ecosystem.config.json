@@ -1,0 +1,49 @@
+{
+  "apps": [
+    {
+      "name": "smartdrive",
+      "script": "./server.js",
+      "instances": "max",
+      "exec_mode": "cluster_mode",
+      "log_date_format" : "YYYY-MM-DD HH:mm",
+      "env": {
+        "NODE_ENV": "staging",
+        "APIPORT": 3000
+      },
+      "env_production": {
+        "NODE_ENV": "production",
+        "PORT": 3000
+      }
+    }
+  ],
+  "deploy" : {
+    "dev" : {
+      "user" : "maxafds",
+      "host" : "localhost",
+      "ref"  : "staging",
+      "repo" : ".",
+      "path" : "/Users/maxafds/motor/app/smartdrive",
+      "post-deploy" : "npm install && npm update && npm run build && pm2 startOrGracefulReload ecosystem.uat.json --env dev"
+    },
+    "uat" : {
+      "user" : "axa1",
+      "host" : ["192.168.2.11"],
+      "port" : "8328",
+      "ref"  : "origin/uat",
+      "repo" : "git@bitbucket.org:axamy-dev/smart-drive-frontend.git",
+      "path" : "/home/axa1/app/smartdrive",
+      "pre-deploy": "git fetch --all",
+      "post-deploy" : "cd /home/axa1/app/smartdrive/current && git checkout uat && npm install && npm update && npm run build && pm2 startOrGracefulReload ecosystem.config.json --env uat"
+    },
+    "production" : {
+      "user" : "AXA",
+      "host" : ["192.168.1.17"],
+      "port" : "22",
+      "ref"  : "origin/master",
+      "repo" : "git@bitbucket.org:axamy-dev/flexidrive-frontend.git",
+      "path" : "/home/AXA/app/flexidrive",
+      "pre-deploy": "git fetch --all",
+      "post-deploy" : "cd /home/AXA/app/flexidrive/current && git checkout master && npm run build && pm2 startOrGracefulReload ecosystem.config.json --env production"
+    }
+  }
+}
